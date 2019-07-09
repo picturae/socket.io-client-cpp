@@ -1,7 +1,10 @@
 cmake_minimum_required(VERSION 3.1.0 FATAL_ERROR)
 PROJECT(sioclient)
 
-set(CMAKE_OSX_DEPLOYMENT_TARGET "10.13")
+if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
+    set(CMAKE_OSX_DEPLOYMENT_TARGET "10.13")
+	set(ENV{PKG_CONFIG_PATH} "/usr/local/opt/openssl/lib/pkgconfig/" ${PKG_CONFIG_PATH})
+endif()
 
 option(BUILD_SHARED_LIBS "Build the shared library" OFF)
 option(BUILD_UNIT_TESTS  "Builds unit tests target" OFF)
