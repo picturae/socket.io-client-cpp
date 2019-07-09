@@ -1,2 +1,4 @@
 build/
 **/*.user
+/libsioclient.a
+/libsioclient_tls.a
