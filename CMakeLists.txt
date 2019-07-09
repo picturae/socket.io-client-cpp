@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 3.1.0 FATAL_ERROR)
 PROJECT(sioclient)
 
+set(CMAKE_OSX_DEPLOYMENT_TARGET "10.13")
+
 option(BUILD_SHARED_LIBS "Build the shared library" OFF)
 option(Boost_USE_STATIC_LIBS "Use Boost static version" ON)
 
