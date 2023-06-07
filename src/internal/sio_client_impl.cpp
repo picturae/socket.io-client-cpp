@@ -12,6 +12,7 @@
 #include <chrono>
 #include <mutex>
 #include <cmath>
+#include <algorithm>
 // Comment this out to disable handshake logging to stdout
 #if DEBUG || _DEBUG
 #define LOG(x) std::cout << x
@@ -27,6 +28,17 @@
 
 using std::chrono::milliseconds;
 using namespace std;
+
+namespace {
+    bool iequals(const string& a, const string& b)
+    {
+        if(a.size() != b.size()) { return false; }
+        return std::equal(a.begin(), a.end(),
+                          b.begin(), [](char a, char b) {
+                return tolower(a) == tolower(b);
+            });
+    }
+}
 
 namespace sio
 {
@@ -625,7 +637,7 @@ failed:
     }
 
 #if SIO_TLS
-    typedef websocketpp::lib::shared_ptr<boost::asio::ssl::context> context_ptr;
+    typedef websocketpp::lib::shared_ptr<asio::ssl::context> context_ptr;
     static context_ptr on_tls_init(connection_hdl conn)
     {
         context_ptr ctx = context_ptr(new  asio::ssl::context(asio::ssl::context::tlsv12));
@@ -651,12 +663,12 @@ failed:
     bool client_impl_base::is_tls(const string& uri)
     {
         websocketpp::uri uo(uri);
-        if(boost::iequals(uo.get_scheme(), "http") || boost::iequals(uo.get_scheme(), "ws"))
+        if(iequals(uo.get_scheme(), "http") || iequals(uo.get_scheme(), "ws"))
         {
             return false;
         }
 #if SIO_TLS
-        else if(boost::iequals(uo.get_scheme(), "https") || boost::iequals(uo.get_scheme(), "wss"))
+        else if(iequals(uo.get_scheme(), "https") || iequals(uo.get_scheme(), "wss"))
         {
             return true;
         }

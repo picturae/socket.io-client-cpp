@@ -89,7 +89,7 @@ namespace sio
         // used by sio::socket
         virtual void send(packet& p)=0;
         virtual void remove_socket(std::string const& nsp)=0;
-        virtual boost::asio::io_service& get_io_service()=0;
+        virtual asio::io_service& get_io_service()=0;
         virtual void on_socket_closed(std::string const& nsp)=0;
         virtual void on_socket_opened(std::string const& nsp)=0;
 
